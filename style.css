@@ -1,0 +1,92 @@
+h1, div, button {
+	padding: 0;
+	margin: 0;
+	font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+
+body {
+  background-color: grey;
+}
+
+.wrapper {
+	width: 400px;
+	height: 1000px;
+	margin: auto;
+}
+
+h1 {
+	color: white;
+	font-size: 50px;
+	text-align: center;
+	margin: 200px auto 50px;
+}
+
+.calculator {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  border-radius:15px;
+	padding: 15px;
+}
+
+.screen {
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	/* flex-shrink: 0; */
+	height: 200px;
+	border-radius: 15px;
+	padding: 15px;
+}
+
+.history {
+	min-height: 40px;
+	box-shadow: 0 0 15px rebeccapurple;
+}
+
+.output {
+	min-height: 80px;
+	box-shadow: 0 0 15px red;
+}
+
+.buttons {
+  display: grid;
+	height: 440px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 15px;
+	padding-top: 15px;
+	justify-content: center;
+}
+
+.btn {
+	border: none;
+	outline: none;
+	cursor: pointer;
+	border-radius: 50%;
+	padding: 10px;
+}
+
+.btn.num {
+	font-size: 2.2rem;
+	background-color: rgb(59, 59, 59);
+	color: white;
+}
+
+.btn.operator:not(.shortcut) {
+	background-color: #f0a33e;
+	color: white;
+	font-size: 2.5rem;
+}
+
+.btn.shortcut {
+	background-color: rgb(204, 204, 204);
+	font-size: 2rem;
+}
+
+.num.zero {
+	grid-column-end: span 2;
+	border-radius: 200px;
+	text-align: left;
+	padding-left: 30px;
+}
