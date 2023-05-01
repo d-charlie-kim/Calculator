@@ -1,13 +1,12 @@
-# Calculator
+# 🧮 Calculator
 
-### HTML / CSS / JavaScript 활용 연습 Part01
-#### : 다양한 기능을 넣은 계산기 구현하기
+### ▶️ HTML / CSS / JavaScript 활용 연습 Part01
+### : 다양한 기능을 넣은 계산기 구현하기
 
 <hr>
 
-### 기능 구현 목록
+### 🔽 기능 구현 목록
 
-<br>
 
 #### /* 기본 연산 기능 */
 - [x] 덧셈 버튼으로 덧셈 계산
