@@ -63,6 +63,14 @@ function secondOperator(btn, operator) {
 }
 
 function changeOperator(btn, operator) {
+	if (operator === 'equals') {
+		writeScreen(Storage.firstNum);
+		writePast('');
+		Storage.firstNum = null;
+		Storage.operator = null;
+		return ;
+	}
+
 	if (operator === 'multiple')
 		Storage.operator = '*';
 	else if (operator === 'divide')
