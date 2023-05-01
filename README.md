@@ -2,6 +2,7 @@
 
 ### ▶️ HTML / CSS / JavaScript 활용 연습 Part01
 ### : 다양한 기능을 넣은 계산기 구현하기
+### DEMO : https://d-charlie-kim.github.io/Calculator/
 
 <hr>
 
