@@ -12,12 +12,14 @@ const Storage = {
 writeScreen('0');
 Btns.forEach((el) => el.addEventListener('click', () => input(el)));
 
-
 /* INPUT */
 function inputShortCut(btn) {
 	const current = Storage.result;
 	const shortcut = btn.classList[3];
 	
+	if (shortcut === 'clear') {
+		clearScreen('0');
+	}
 	if (Result.textContent === '')
 		return ;
 
@@ -32,9 +34,6 @@ function inputShortCut(btn) {
 			writeScreen(newNum + '.');
 		else
 			writeScreen(newNum + '');
-	}
-	else if (shortcut === 'clear') {
-		clearScreen('0');
 	}
 }
 
@@ -188,7 +187,7 @@ function clearScreen(newNum) {
 	Storage.operator = null;
 	Storage.dot = false;
 	Storage.result = '';
-	writePast('', '');
+	Past.textContent = ''
 	writeScreen(newNum);
 }
 
@@ -199,4 +198,4 @@ function writePast(str, oper) {
 function writeScreen(str) {
 	Storage.result = str;
 	Result.textContent = putComma(str);
-}
+} 
