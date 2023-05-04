@@ -2,6 +2,7 @@ const Past = document.querySelector('.history');
 const Result = document.querySelector('.output');
 const Btns = document.querySelectorAll('.btn');
 const Storage = {
+	result: '',
 	firstNum: 0,
 	operator: null,
 	end: true,
@@ -14,9 +15,12 @@ Btns.forEach((el) => el.addEventListener('click', () => input(el)));
 
 /* INPUT */
 function inputShortCut(btn) {
-	const current = Result.textContent;
+	const current = Storage.result;
 	const shortcut = btn.classList[3];
 	
+	if (Result.textContent === '')
+		return ;
+
 	if (shortcut === 'percent') {
 		writeScreen(new Function("return " + current + " / 100")());
 		if (Math.abs(current) < 100)
@@ -27,18 +31,12 @@ function inputShortCut(btn) {
 		if (current[current.length - 1] === '.')
 			writeScreen(newNum + '.');
 		else
-			writeScreen(newNum);
+			writeScreen(newNum + '');
 	}
 	else if (shortcut === 'clear') {
 		clearScreen('0');
 	}
 }
-
-/*
-1. 숫자가 입력된 상태에서 operator 누르는 경우
-2. 숫자 operator 숫자 그리고 operator 누르는 경우
-3. 완성된 수식이 아닌 상태에서 equal 누르는 경우
-*/
 
 function getMultipleDivide(operator) {
 	if (operator === 'multiple')
@@ -48,18 +46,18 @@ function getMultipleDivide(operator) {
 }
 
 function firstOperator(btn, operator) {
-	Storage.firstNum = Result.textContent;
+	Storage.firstNum = Storage.result;
 	if (operator === 'multiple' || operator === 'divide')
 		Storage.operator = getMultipleDivide(operator);
 	else
 		Storage.operator = btn.textContent;
 	Storage.end = false;
-	writePast(Result.textContent + " " + btn.textContent);
+	writePast(Storage.result, btn.textContent);
 	writeScreen('');
 }
 
 function secondOperator(btn, operator) {
-	const current = new Function("return " + Storage.firstNum + " " + Storage.operator + " " + Result.textContent)();
+	const current = new Function("return " + Storage.firstNum + " " + Storage.operator + " " + Storage.result)();
 
 	if (operator === 'equals') {
 		clearScreen(current);
@@ -70,7 +68,7 @@ function secondOperator(btn, operator) {
 			Storage.operator = getMultipleDivide(operator);
 		else
 			Storage.operator = btn.textContent;
-		writePast(current + " " + btn.textContent);
+		writePast(current, btn.textContent);
 		writeScreen('');
 	}
 }
@@ -78,7 +76,6 @@ function secondOperator(btn, operator) {
 function changeOperator(btn, operator) {
 	if (operator === 'equals') {
 		clearScreen(Storage.firstNum);
-		Storage.firstNum = Screen.textContent;
 		return ;
 	}
 
@@ -86,14 +83,14 @@ function changeOperator(btn, operator) {
 		Storage.operator = getMultipleDivide(operator);
 	else
 		Storage.operator = btn.textContent;
-	writePast(Storage.firstNum + " " + btn.textContent);
+	writePast(Storage.firstNum, btn.textContent);
 }
 
 function inputOperator(btn) {
 	const operator = btn.classList[2];
 
 	if (operator === 'equals' && !Storage.operator) {
-		clearScreen(Result.textContent);
+		clearScreen(Storage.result);
 		return ;
 	}
 
@@ -107,23 +104,31 @@ function inputOperator(btn) {
 }
 
 function inputNum(btn) {
-	const current = Result.textContent;
-	let newResult = "";
-	if (current === '0')
-		newResult = btn.textContent;
-	else {
-		newResult = current + btn.textContent;
-	}
-	if (Storage.end) {
-		clearScreen(btn.textContent);
-		Storage.end = false;
-	}
-	else
-		writeScreen(newResult);
-}
+	const current = Storage.result;
 
-function inputDot() {
-	if (!Storage.dot) {
+	let max = Storage.result[0] === '-' ? 9 : 8
+	if (Storage.result.length > max)
+		return ;
+		
+		let newResult = "";
+		if (current === '0')
+			newResult = btn.textContent;
+		else {
+			newResult = current + btn.textContent;
+		}
+		if (Storage.end) {
+			clearScreen(btn.textContent);
+			Storage.end = false;
+		}
+		else
+		writeScreen(newResult);
+	}
+	
+	function inputDot() {
+	if (Storage.result.length > 8)
+		return ;
+
+		if (!Storage.dot) {
 		Storage.dot = true;
 		if (Storage.end) {
 			clearScreen('0.');
@@ -131,7 +136,7 @@ function inputDot() {
 			Storage.end = false;
 		}
 		else
-			writeScreen(Result.textContent + '.');
+			writeScreen(Storage.result + '.');
 	}
 }
 
@@ -149,19 +154,49 @@ function input(btn) {
 }
 
 /* OUTPUT */
+
+function putComma(str) {
+	str = str + '';
+	let stringWithComma = [];
+	let index = str.length - 1;
+
+	if (str.indexOf('.') !== -1) {
+		while (str[index] !== '.') {
+			stringWithComma.unshift(str[index]);
+			index--;
+		}
+		stringWithComma.unshift('.');
+		index--;
+	}
+
+	for (let count = 0; index >= 0; index--) {
+		if (count === 3) {
+			stringWithComma.unshift(',');
+			if (str[index] === '-')
+				stringWithComma.shift();
+			count = 0;
+		}
+		stringWithComma.unshift(str[index]);
+		count++;
+	}
+	return stringWithComma.join('');
+}
+
 function clearScreen(newNum) {
 	Storage.end = true;
 	Storage.firstNum = null;
 	Storage.operator = null;
 	Storage.dot = false;
-	writePast('');
+	Storage.result = '';
+	writePast('', '');
 	writeScreen(newNum);
 }
 
-function writePast(str) {
-	Past.textContent = str;
+function writePast(str, oper) {
+	Past.textContent = putComma(str) + ' ' + oper;
 }
 
 function writeScreen(str) {
-	Result.textContent = str;
+	Storage.result = str;
+	Result.textContent = putComma(str);
 }
