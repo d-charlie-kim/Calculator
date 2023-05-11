@@ -74,6 +74,7 @@ h1 {
 	cursor: pointer;
 	border-radius: 50%;
 	padding-top: 7px;
+	transition: 0.3s;
 }
 
 .btn.digit {
@@ -82,20 +83,46 @@ h1 {
 	color: white;
 }
 
+.digit.zero {
+	grid-column-end: span 2;
+	border-radius: 200px;
+	text-align: left;
+	padding-left: 30px;
+}
+
+.btn.digit:hover {
+	background-color: rgb(103, 101, 101);
+}
+
+.btn.digit:active {
+	color: black;
+	background-color: rgb(171, 168, 168);
+}
+
+.btn.shortcut {
+	background-color: rgb(164, 164, 164);
+	font-size: 2rem;
+}
+
+.btn.shortcut:hover {
+	background-color: rgb(184, 184, 184);
+}
+
+.btn.shortcut:active {
+	background-color: rgb(255, 255, 255);
+}
+
 .btn.operator:not(.shortcut) {
 	background-color: #f0a33e;
 	color: white;
 	font-size: 3rem;
 }
 
-.btn.shortcut {
-	background-color: rgb(204, 204, 204);
-	font-size: 2rem;
+.btn.operator:not(.shortcut):hover {
+	background-color: #ebba7b;
 }
 
-.digit.zero {
-	grid-column-end: span 2;
-	border-radius: 200px;
-	text-align: left;
-	padding-left: 30px;
+.btn.operator:not(.shortcut):active {
+	background-color: white;
+	color: #f0a33e;
 }
